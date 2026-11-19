@@ -197,6 +197,8 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
+			name = Debug;
+		};
 		B20000000000000000000091 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -250,6 +252,8 @@
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 			};
+			name = Release;
+		};
 		B20000000000000000000092 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
