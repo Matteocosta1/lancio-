@@ -41,8 +41,12 @@ Prima di toccare JARVIS: spiegargli il piano e aspettare il suo sì (regole di J
 - **Decisione da chiedere ad Alessandro:** con questo, quando l'iPhone duplica lo schermo su un Mac o una TV,
   JARVIS mostra lì la schermata di Lancio invece di duplicare tutto lo schermo. Va bene sempre, o solo con Lancio aperto?
 
-## 5. Estensione Condividi «Lancia» (quando c'è, V3)
-- Si sposta come target dentro il progetto di JARVIS. Istruzioni precise arriveranno con la V3.
+## 5. Estensione Condividi «Lancia»
+- Nuovo target «Share Extension» in JARVIS (nome visibile: «Lancia»), con `LancioCondividi/ControllerCondividi.swift`
+  e la `NSExtension` di `Config/LancioCondividi-Info.plist`; entitlements con lo stesso contenitore iCloud del punto 3.
+- Il target deve compilare anche: `Modulo/Consegna.swift`, `Gesto.swift`, `ImmagineLancio.swift`, `VistaCondividiLancio.swift`
+  e, da JARVIS, i pezzi grafici e `Suoni` (se i file di JARVIS non si possono condividere col target, servono le copie di `SoloApp`).
+- NON vanno nel target: `AirDropLancio.swift`, `Schermo.swift`, `VistaLancio.swift` (usano API vietate nelle estensioni).
 
 ## 6. Dopo
 - Advisor/controlli di JARVIS, push con `[compila]`, numero di versione di JARVIS.

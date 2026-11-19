@@ -75,29 +75,6 @@ enum ConsegnaLancio {
         }
     }
 
-    /// Apre AirDrop per il Mac di un'altra persona. `fine(true)` se è stato inviato.
-    static func altri(_ contenuto: ContenutoLancio, fine: @escaping @MainActor (Bool) -> Void) {
-        let oggetto: Any
-        switch contenuto {
-        case .foto(let immagine, _): oggetto = immagine
-        case .link(let url): oggetto = url
-        case .testo(let testo): oggetto = testo
-        }
-        let foglio = UIActivityViewController(activityItems: [oggetto], applicationActivities: nil)
-        // via le voci di Apple che non c'entrano: resta AirDrop in cima (le app di altri non si possono togliere)
-        foglio.excludedActivityTypes = [
-            .addToReadingList, .assignToContact, .copyToPasteboard, .mail, .markupAsPDF,
-            .message, .openInIBooks, .print, .saveToCameraRoll
-        ]
-        foglio.completionWithItemsHandler = { tipo, completato, _, _ in
-            let inviato = completato && tipo == .airDrop
-            Task { @MainActor in fine(inviato) }
-        }
-        guard let sopra = controllerInCima() else { fine(false); return }
-        foglio.popoverPresentationController?.sourceView = sopra.view
-        sopra.present(foglio, animated: true)
-    }
-
     // MARK: Dettagli
 
     private static func nomeFile(_ base: String, estensione: String) -> String {
@@ -129,16 +106,6 @@ enum ConsegnaLancio {
         } catch {
             return false
         }
-    }
-
-    private static func controllerInCima() -> UIViewController? {
-        let finestre = UIApplication.shared.connectedScenes
-            .compactMap { $0 as? UIWindowScene }
-            .filter { $0.session.role == .windowApplication }
-            .flatMap(\.windows)
-        var cima = finestre.first(where: \.isKeyWindow)?.rootViewController ?? finestre.first?.rootViewController
-        while let sopra = cima?.presentedViewController { cima = sopra }
-        return cima
     }
 }
 #endif
