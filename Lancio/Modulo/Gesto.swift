@@ -1,3 +1,4 @@
+#if os(iOS)
 import SwiftUI
 import UIKit
 import Combine
@@ -84,3 +85,4 @@ enum ApticaLancio {
     /// Manca qualcosa.
     static func errore() { notifica.notificationOccurred(.warning) }
 }
+#endif

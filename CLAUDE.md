@@ -7,7 +7,10 @@ stessa grafica, stessi suoni, stesse regole.
 
 - **Ramo di Xcode:** `main`.
 - Ogni modifica si numera **V1, V2, V3…** e va scritta in `VERSIONI.md`, così si può togliere una sola versione.
-- `Lancio/StileJarvis.swift` è una copia dei pezzi grafici di JARVIS: quando Lancio entra in JARVIS si toglie.
+- `Lancio/Modulo/` è il blocco che entra in JARVIS (istruzioni in `PER-JARVIS.md`): usa solo nomi già liberi in JARVIS
+  e chiama i pezzi di JARVIS (`Suoni`, `aperturaHUD`, `TestataScheda`, `Pannello`, `TastoJarvis`, colori).
+- `Lancio/SoloApp/` contiene le copie di quei pezzi per l'app da sola: in JARVIS non si copia.
+- Il codice di JARVIS non si tocca da qui: l'integrazione si fa nella sessione di JARVIS.
 
 ## Come si lavora con Alessandro
 - Prima di modificare il codice: spiegare in parole semplici cosa si vuole fare e aspettare il suo sì.
