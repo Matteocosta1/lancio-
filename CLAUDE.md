@@ -1,0 +1,28 @@
+# Lancio — regole per Claude
+
+App iOS (progetto `Lancio.xcodeproj`): lanci una foto, un link o un testo dall'iPhone con uno scatto del polso
+e arriva sul Mac, senza installare niente sul Mac. Il progetto è di **Alessandro** (crea e decide tutto);
+Matteo è il suo socio. Lancio nasce da solo per provarlo, poi **entra in JARVIS** (repo `Matteocosta1/jarvis`):
+stessa grafica, stessi suoni, stesse regole.
+
+- **Ramo di Xcode:** `main`.
+- Ogni modifica si numera **V1, V2, V3…** e va scritta in `VERSIONI.md`, così si può togliere una sola versione.
+- `Lancio/StileJarvis.swift` è una copia dei pezzi grafici di JARVIS: quando Lancio entra in JARVIS si toglie.
+
+## Come si lavora con Alessandro
+- Prima di modificare il codice: spiegare in parole semplici cosa si vuole fare e aspettare il suo sì.
+- Design, grafica, suoni e struttura li decide lui. Mai togliere voci o funzioni senza chiedere.
+- Proporre sempre la soluzione migliore, non la scorciatoia. Se Apple non permette una cosa, dirlo subito.
+- Version e Build li gestisce Claude, ma il numero di build non si alza da soli: prima chiedere.
+- Le build vanno su TestFlight col suo metodo (Pull + Archive + TestFlight).
+
+## Prima di dire "pronta" (qui Xcode non c'è)
+1. Ricontrollare a mano ogni file: `import Combine` dove ci sono `@Published`/`ObservableObject`, nomi ambigui,
+   codice del thread principale chiamato da closure che non girano sul main actor, tipi espliciti nelle tuple.
+   Il progetto usa le stesse impostazioni di JARVIS: Swift 5, isolamento predefinito `MainActor`, iOS 27.
+2. Zero errori e zero warning.
+3. Push con **`[compila]`** nel messaggio del commit, poi leggere il workflow **Compila**: consegnare solo se è verde.
+4. Dire chiaro cosa è fatto, cosa no e cosa va provato sul telefono.
+
+## Nell'app
+- Animazioni a 120 Hz, funzionali, niente animazioni inutili. Titoli di una parola. Numeri scritti a schermo.
