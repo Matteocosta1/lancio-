@@ -6,6 +6,7 @@ import UIKit
 
 enum ContenutoLancio {
     case foto(UIImage, Data)
+    case video(URL)
     case link(URL)
     case testo(String)
 
@@ -13,6 +14,7 @@ enum ContenutoLancio {
     var nome: String {
         switch self {
         case .foto: return "una foto"
+        case .video: return "un video"
         case .link: return "un link"
         case .testo: return "un testo"
         }
@@ -22,6 +24,7 @@ enum ContenutoLancio {
     var tipo: String {
         switch self {
         case .foto: return "foto"
+        case .video: return "video"
         case .link: return "link"
         case .testo: return "testo"
         }
@@ -31,6 +34,7 @@ enum ContenutoLancio {
     var chiave: String {
         switch self {
         case .foto(_, let dati): return "foto-\(dati.count)-\(dati.hashValue)"
+        case .video(let url): return "video-\(url.absoluteString)"
         case .link(let url): return "link-\(url.absoluteString)"
         case .testo(let testo): return "testo-\(testo.hashValue)"
         }
@@ -84,6 +88,12 @@ enum ConsegnaLancio {
                 ? "In iCloud Drive › Lancio › Link: il Mac lo apre in Safari."
                 : "iCloud Drive non è attivo: sul Mac è nel Dock (Handoff) e negli appunti."
 
+        case .video(let url):
+            let salvato = await copiaInICloud(url, cartella: "Video", nome: nomeFile("Lancio", estensione: url.pathExtension.isEmpty ? "mov" : url.pathExtension))
+            return salvato
+                ? "In iCloud Drive › Lancio › Video."
+                : "iCloud Drive non è attivo su questo iPhone."
+
         case .foto(let immagine, let dati):
             UIPasteboard.general.image = immagine
             let salvata = await salvaInICloud(dati, cartella: "Foto", nome: nomeFile("Lancio", estensione: "jpg"))
@@ -120,6 +130,21 @@ enum ConsegnaLancio {
         do {
             try FileManager.default.createDirectory(at: dove, withIntermediateDirectories: true)
             try dati.write(to: dove.appending(path: nome), options: .atomic)
+            return true
+        } catch {
+            return false
+        }
+    }
+
+    /// Copia un file (es. un video) in iCloud Drive › Lancio › <cartella>, senza caricarlo tutto in memoria.
+    @concurrent
+    private nonisolated static func copiaInICloud(_ sorgente: URL, cartella: String, nome: String) async -> Bool {
+        guard let base = FileManager.default.url(forUbiquityContainerIdentifier: contenitoreICloud) else { return false }
+        let dove = base.appending(path: "Documents", directoryHint: .isDirectory)
+            .appending(path: cartella, directoryHint: .isDirectory)
+        do {
+            try FileManager.default.createDirectory(at: dove, withIntermediateDirectories: true)
+            try FileManager.default.copyItem(at: sorgente, to: dove.appending(path: nome))
             return true
         } catch {
             return false

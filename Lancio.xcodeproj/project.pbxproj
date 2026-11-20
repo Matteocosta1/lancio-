@@ -49,10 +49,7 @@
 				Modulo/AirDropLancio.swift,
 				Modulo/FotoLancio.swift,
 				Modulo/Lanciabile.swift,
-				Modulo/ReteLancio.swift,
-				Modulo/RiceviLancio.swift,
 				Modulo/Schermo.swift,
-				Modulo/ViciniLancio.swift,
 				Modulo/VistaLancio.swift,
 				Modulo/WebLancio.swift,
 				SoloApp/LancioApp.swift,
@@ -389,7 +386,7 @@
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Per mostrarti le tue foto e lanciarle ai dispositivi vicini.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Per mostrarti le tue foto e lanciarle con il gesto.";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
@@ -429,7 +426,7 @@
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Per mostrarti le tue foto e lanciarle ai dispositivi vicini.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Per mostrarti le tue foto e lanciarle con il gesto.";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;

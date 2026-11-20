@@ -1,8 +1,8 @@
 # Lancio — regole per Claude
 
-App iOS (progetto `Lancio.xcodeproj`): dentro l'app guardi una foto o una pagina e con uno scatto del polso
-la lanci ai dispositivi vicini con Lancio aperto (Mac, iPhone, iPad): dall'altra parte si accetta e si apre.
-Nessuno vicino → AirDrop. Gira anche sul Mac («Designed for iPad») per ricevere. Il progetto è di **Alessandro** (crea e decide tutto);
+Il «lancio» è una funzione di JARVIS, non un'app: in JARVIS apri una foto, un video, un link o un testo, fai lo
+scatto del polso e parte. Schermo AirPlay collegato → atterra lì senza tocchi; altrimenti → AirDrop (si tocca la
+persona). Chi riceve non installa niente. Il progetto `Lancio.xcodeproj` è solo il banco di prova del gesto. Il progetto è di **Alessandro** (crea e decide tutto);
 Matteo è il suo socio. Lancio nasce da solo per provarlo, poi **entra in JARVIS** (repo `Matteocosta1/jarvis`):
 stessa grafica, stessi suoni, stesse regole.
 

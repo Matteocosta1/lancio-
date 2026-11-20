@@ -166,6 +166,14 @@ struct VistaCondividiLancio: View {
                     .resizable().scaledToFill()
                     .frame(maxWidth: .infinity).frame(height: 240)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
+            case .video(let url):
+                Label(url.lastPathComponent, systemImage: "film")
+                    .font(.system(size: 14, design: .monospaced))
+                    .foregroundStyle(.white)
+                    .padding(12)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(Color.fondo.opacity(0.6))
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
             case .link(let url):
                 Text(url.absoluteString)
                     .font(.system(size: 14, design: .monospaced))
@@ -193,6 +201,7 @@ struct VistaCondividiLancio: View {
     private var titoloScheda: String {
         switch stato.contenuto {
         case .foto: return "FOTO"
+        case .video: return "VIDEO"
         case .link: return "LINK"
         case .testo: return "TESTO"
         case nil: return ""

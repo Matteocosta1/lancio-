@@ -2,6 +2,7 @@
 import SwiftUI
 import UIKit
 import Combine
+import AVKit
 
 // MARK: - SCHERMO: il Mac collegato in AirPlay
 // Quando l'iPhone si collega al Mac (Centro di Controllo › Duplica schermo › il Mac), iOS offre all'app uno «schermo
@@ -142,6 +143,11 @@ struct VistaSchermoLancio: View {
                     .resizable().scaledToFit()
                     .frame(maxWidth: lato * 1.1, maxHeight: lato * 0.62)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
+            case .video(let url):
+                VideoSchermoLancio(url: url)
+                    .frame(maxWidth: lato * 1.4, maxHeight: lato * 0.7)
+                    .aspectRatio(16 / 9, contentMode: .fit)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
             case .link(let url):
                 VStack(alignment: .leading, spacing: lato * 0.02) {
                     Text(url.host() ?? url.absoluteString)
@@ -166,6 +172,22 @@ struct VistaSchermoLancio: View {
         .clipShape(RoundedRectangle(cornerRadius: 18))
         .overlay(RoundedRectangle(cornerRadius: 18).stroke(tinta.opacity(0.35), lineWidth: 1))
         .shadow(color: tinta.opacity(0.25), radius: 30)
+    }
+}
+
+/// Il video lanciato sullo schermo: parte da solo, col suo audio.
+private struct VideoSchermoLancio: View {
+    let url: URL
+    @State private var lettore: AVPlayer?
+
+    var body: some View {
+        VideoPlayer(player: lettore)
+            .onAppear {
+                let nuovo = AVPlayer(url: url)
+                lettore = nuovo
+                nuovo.play()
+            }
+            .onDisappear { lettore?.pause() }
     }
 }
 

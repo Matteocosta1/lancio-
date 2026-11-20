@@ -2,27 +2,26 @@
 import SwiftUI
 import UIKit
 
-// MARK: - LANCIO: la schermata principale
-// Tre sezioni: FOTO (le tue foto: ne apri una e la lanci), WEB (la pagina che guardi) e VICINI (chi c'è intorno).
-// Lo scatto del polso lancia quello che hai davanti al dispositivo vicino con Lancio aperto; dall'altra parte
-// si accetta e si apre. Si apre col caricamento HUD di JARVIS; dentro JARVIS riceve `chiudi` e mostra «Chiudi».
+// MARK: - Banco di prova del gesto
+// Questa schermata serve solo per provare il lancio prima di metterlo in JARVIS: in JARVIS non c'è un'app «Lancio»,
+// il gesto si aggiunge alle sue schermate (foto aperta, video, Browser) con `.lanciabile(…)`.
+// FOTO: apri una foto e lanciala. WEB: apri una pagina e lanciala.
 
 struct VistaLancio: View {
     var chiudi: (() -> Void)? = nil
 
     private enum Sezione: String, CaseIterable, Identifiable {
-        case foto = "Foto", web = "Web", vicini = "Vicini"
+        case foto = "Foto", web = "Web"
         var id: String { rawValue }
         var icona: String {
             switch self {
             case .foto: return "photo.on.rectangle"
             case .web: return "globe"
-            case .vicini: return "dot.radiowaves.left.and.right"
             }
         }
     }
 
-    @ObservedObject private var rete = ReteLancio.condivisa
+    @ObservedObject private var schermo = SchermoLancio.condiviso
     @StateObject private var libreria = LibreriaLancio()
     @StateObject private var pagina = PaginaWebLancio()
     @State private var sezione: Sezione = .foto
@@ -42,7 +41,6 @@ struct VistaLancio: View {
                     switch sezione {
                     case .foto: VistaFotoLancio(libreria: libreria) { indice in apriFoto(indice) }
                     case .web: VistaWebLancio(pagina: pagina)
-                    case .vicini: VistaViciniLancio()
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -58,7 +56,6 @@ struct VistaLancio: View {
             }
         }
         .preferredColorScheme(.dark)
-        .riceviLancio()
         .aperturaHUD("Lancio")
     }
 
@@ -66,22 +63,14 @@ struct VistaLancio: View {
 
     private var testata: some View {
         HStack(alignment: .top) {
-            TestataScheda(titolo: "Lancio", sottotitolo: statoRete, icona: "paperplane", tinta: tinta)
+            TestataScheda(titolo: "Lancio", sottotitolo: schermo.collegato ? "verso lo schermo airplay" : "verso airdrop",
+                          icona: "paperplane", tinta: tinta)
             if let chiudi {
                 Button("Chiudi") { Suoni.tocco(); chiudi() }.tint(tinta)
             }
         }
         .padding(.horizontal, 16)
         .padding(.top, 8)
-    }
-
-    private var statoRete: String {
-        guard rete.attiva else { return "rete in pausa" }
-        switch rete.vicini.count {
-        case 0: return "nessuno vicino · airdrop"
-        case 1: return "vicino: \(rete.vicini[0].nome)"
-        default: return "\(rete.vicini.count) vicini"
-        }
     }
 
     private var barraSezioni: some View {

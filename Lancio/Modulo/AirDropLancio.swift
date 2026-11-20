@@ -11,6 +11,7 @@ extension ConsegnaLancio {
         let oggetto: Any
         switch contenuto {
         case .foto(let immagine, _): oggetto = immagine
+        case .video(let url): oggetto = url
         case .link(let url): oggetto = url
         case .testo(let testo): oggetto = testo
         }
