@@ -14,6 +14,14 @@ Prima di toccare JARVIS: spiegargli il piano e aspettare il suo sì (regole di J
   Nomi del Modulo, già controllati liberi in JARVIS: `VistaLancio`, `Lanciatore`, `ApticaLancio`, `ContenutoLancio`,
   `DestinazioneLancio`, `ConsegnaLancio`, `SchermoLancio`, `SchermoLancioDelegato`, `VistaSchermoLancio`.
 
+## 1b. Il lancio dentro JARVIS (V4)
+- Alla ContentView di JARVIS: `.riceviLancio()` (una volta sola): accende la rete, mostra «Accetta», la schermata d'arrivo.
+- Alla foto aperta nella sezione Foto: `.lanciabile(.foto(immagine, jpeg))` (il JPEG si prepara con `ImmagineLancio.jpegRidotto`).
+- Al Browser di JARVIS: `.lanciabile(urlAttuale.map { .link($0) })`.
+- Info.plist di JARVIS: `NSBonjourServices` = `_lancio-jv._tcp`, `_lancio-jv._udp` e `NSLocalNetworkUsageDescription`
+  (vedi `Config/Info.plist`). Stesso nome di servizio dell'app da sola: si trovano tra loro.
+- JARVIS gira già sul Mac: con `.riceviLancio()` il Mac riceve senza installare altro.
+
 ## 2. Dove si apre (da confermare con Alessandro)
 - Icona nella corona, gruppo **STRUMENTI**, dopo LiDAR:
   `("STRUMENTI", "paperplane", "Lancio", { tastiera = false; mostraLancio = true })`

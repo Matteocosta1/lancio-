@@ -4,6 +4,13 @@
 <dict>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_lancio-jv._tcp</string>
+		<string>_lancio-jv._udp</string>
+	</array>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Per trovare i dispositivi vicini con Lancio aperto e lanciargli foto e link.</string>
 	<key>NSUbiquitousContainers</key>
 	<dict>
 		<key>iCloud.it.discosizer.lancio</key>

@@ -17,6 +17,24 @@ enum ContenutoLancio {
         case .testo: return "un testo"
         }
     }
+
+    /// «foto», «link» o «testo»: viaggia nell'invito, così chi riceve sa cosa sta per arrivare.
+    var tipo: String {
+        switch self {
+        case .foto: return "foto"
+        case .link: return "link"
+        case .testo: return "testo"
+        }
+    }
+
+    /// Un'impronta del contenuto: cambia quando cambia la foto, la pagina o il testo «in mano».
+    var chiave: String {
+        switch self {
+        case .foto(_, let dati): return "foto-\(dati.count)-\(dati.hashValue)"
+        case .link(let url): return "link-\(url.absoluteString)"
+        case .testo(let testo): return "testo-\(testo.hashValue)"
+        }
+    }
 }
 
 /// Dove arriva.
