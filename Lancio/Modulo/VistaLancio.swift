@@ -4,7 +4,8 @@ import UIKit
 
 // MARK: - Banco di prova del gesto
 // Questa schermata serve solo per provare il lancio prima di metterlo in JARVIS: in JARVIS non c'è un'app «Lancio»,
-// il gesto si aggiunge alle sue schermate (foto aperta, video, Browser) con `.lanciabile(…)`.
+// il gesto si aggiunge alle sue schermate (foto aperta, video, Browser) con `.lanciabile(…)`, e `.riceviLancio()`
+// alla schermata principale perché anche i tuoi dispositivi ricevano.
 // FOTO: apri una foto e lanciala. WEB: apri una pagina e lanciala.
 
 struct VistaLancio: View {
@@ -22,6 +23,7 @@ struct VistaLancio: View {
     }
 
     @ObservedObject private var schermo = SchermoLancio.condiviso
+    @ObservedObject private var rete = ReteLancio.condivisa
     @StateObject private var libreria = LibreriaLancio()
     @StateObject private var pagina = PaginaWebLancio()
     @State private var sezione: Sezione = .foto
@@ -56,6 +58,7 @@ struct VistaLancio: View {
             }
         }
         .preferredColorScheme(.dark)
+        .riceviLancio()
         .aperturaHUD("Lancio")
     }
 
@@ -63,14 +66,23 @@ struct VistaLancio: View {
 
     private var testata: some View {
         HStack(alignment: .top) {
-            TestataScheda(titolo: "Lancio", sottotitolo: schermo.collegato ? "verso lo schermo airplay" : "verso airdrop",
-                          icona: "paperplane", tinta: tinta)
+            TestataScheda(titolo: "Lancio", sottotitolo: destinazione, icona: "paperplane", tinta: tinta)
             if let chiudi {
                 Button("Chiudi") { Suoni.tocco(); chiudi() }.tint(tinta)
             }
         }
         .padding(.horizontal, 16)
         .padding(.top, 8)
+    }
+
+    /// Dove andrà il prossimo lancio, scritto in testata.
+    private var destinazione: String {
+        if schermo.collegato { return "verso lo schermo airplay" }
+        switch rete.vicini.count {
+        case 0: return "verso airdrop"
+        case 1: return "verso \(rete.vicini[0].nome)"
+        default: return "\(rete.vicini.count) tuoi dispositivi vicini"
+        }
     }
 
     private var barraSezioni: some View {

@@ -5,10 +5,12 @@ Prima di toccare JARVIS: spiegargli il piano in parole semplici e aspettare il s
 
 ## L'idea (come la vuole Alessandro)
 Non esiste un'app «Lancio»: è una funzione di JARVIS. In JARVIS apri una foto, un video, un link o qualsiasi cosa,
-fai lo scatto del polso in avanti e parte. Niente da aprire, niente tasti. Chi riceve non ha niente installato:
-- c'è uno schermo collegato in AirPlay (TV, Apple TV, Mac) → il contenuto ci atterra sopra, senza tocchi;
-- altrimenti → si apre AirDrop con le persone vicine, se ne tocca una e le arriva la notifica
-  (quel tocco Apple non lo lascia togliere a nessuna app).
+fai lo scatto del polso in avanti e parte. Niente da aprire, niente tasti. In quest'ordine:
+1. schermo collegato in AirPlay (TV, Apple TV, Mac) → ci atterra sopra, senza tocchi;
+2. un dispositivo di Alessandro con JARVIS aperto qui vicino (stesso Apple ID: il suo Mac, il suo iPad) → arriva lì,
+   senza tocchi né «Accetta»; se sono più d'uno compare la lista;
+3. altrimenti → AirDrop con le persone vicine: se ne tocca una e le arriva la notifica (chi riceve non installa niente;
+   quel tocco Apple non lo lascia togliere a nessuna app).
 
 ## 1. Cosa si copia in JARVIS (in `Untitled Project/`, anche in una sottocartella `Lancio`)
 Da `Lancio/Modulo/`:
@@ -18,15 +20,20 @@ Da `Lancio/Modulo/`:
 - `AirDropLancio.swift` — il foglio con AirDrop in cima
 - `Schermo.swift` — lo schermo AirPlay: la schermata HUD sul TV/Mac e l'atterraggio (anche dei video)
 - `ImmagineLancio.swift` — la foto ridotta a JPEG 3072 px, pronta da lanciare
+- `ReteLancio.swift` — la rete tra i dispositivi di Alessandro (Bonjour peer-to-peer, chiave in iCloud, cifratura)
+- `RiceviLancio.swift` — `.riceviLancio()`: tiene accesa la rete e mostra quello che arriva (foto, video, link, testo)
 
 NON si copiano: `VistaLancio.swift`, `FotoLancio.swift`, `WebLancio.swift` (sono solo il banco di prova),
 `VistaCondividiLancio.swift` e la cartella `LancioCondividi/` (estensione dell'app di prova), la cartella `SoloApp/`
 (copie di pezzi che in JARVIS esistono già: colori, `TestataScheda`, `Pannello`, `TastoJarvis`, `StileStark`,
 `CaricamentoHUD`, `aperturaHUD`, `Suoni`).
 
-Il Modulo usa di JARVIS: `Suoni.chatSvuota()` (suono del lancio), `Suoni.fatto()`, `Color.ciano/fondo/tenue`.
+Il Modulo usa di JARVIS: `Suoni.chatSvuota()` (suono del lancio), `Suoni.fatto()`, `Suoni.tocco()`,
+`Pannello`, `TastoJarvis`, `StileStark`, `Color.ciano/fondo/tenue`.
 Nomi del Modulo, controllati liberi in JARVIS: `Lanciatore`, `ApticaLancio`, `Lanciabile`, `ContenutoLancio`,
-`DestinazioneLancio`, `ConsegnaLancio`, `SchermoLancio`, `SchermoLancioDelegato`, `VistaSchermoLancio`, `ImmagineLancio`.
+`DestinazioneLancio`, `ConsegnaLancio`, `SchermoLancio`, `SchermoLancioDelegato`, `VistaSchermoLancio`, `ImmagineLancio`,
+`ReteLancio`, `VicinoLancio`, `ArrivoLancio`, `StatoInvio`, `VicinoGrezzo`, `MessaggioLancio`, `CanaleLancio`, `Lettore`,
+`RiceviLancio`, `VistaArrivoLancio` (ricontrollare `Lettore` e `StatoInvio` con un grep prima di copiare).
 
 ## 2. Dove si aggiunge il gesto (da confermare con Alessandro, schermata per schermata)
 - `Galleria.swift` › `VistaImmagini` (le immagini a schermo intero): alla pagina attuale
@@ -49,8 +56,15 @@ Con questo, quando l'iPhone è collegato a una TV o a un Mac (Centro di Controll
 la sua schermata HUD «in attesa di lancio» e ci fa atterrare quello che lanci. **Da dire ad Alessandro:** mentre è
 collegato, lo schermo mostra JARVIS invece della copia dell'iPhone.
 
-## 4. Permessi
-Nessun permesso nuovo: CoreMotion (il gesto) non chiede niente, AirDrop e AirPlay sono di sistema.
+## 4. Ricevere sui dispositivi di Alessandro
+- Alla ContentView di JARVIS: `.riceviLancio()` (una volta sola). JARVIS gira già sul Mac: lì riceve senza altro.
 
-## 5. Dopo
+## 5. Permessi e impostazioni
+- Info.plist di JARVIS: `NSBonjourServices` = `_lancio-jv._tcp` e `NSLocalNetworkUsageDescription`
+  («Per trovare i tuoi dispositivi vicini e lanciargli foto, video e link.»). iOS chiede il permesso la prima volta.
+- Entitlements di JARVIS (iPhone e Mac, stessa app): `com.apple.developer.ubiquity-kvstore-identifier` =
+  `$(TeamIdentifierPrefix)$(CFBundleIdentifier)` (capability iCloud › Key-value storage). Serve per la chiave comune.
+- CoreMotion (il gesto) non chiede niente; AirDrop e AirPlay sono di sistema.
+
+## 6. Dopo
 Controlli di JARVIS (import, main actor, zero warning), push con `[compila]`, numero di versione di JARVIS.

@@ -49,6 +49,8 @@
 				Modulo/AirDropLancio.swift,
 				Modulo/FotoLancio.swift,
 				Modulo/Lanciabile.swift,
+				Modulo/ReteLancio.swift,
+				Modulo/RiceviLancio.swift,
 				Modulo/Schermo.swift,
 				Modulo/VistaLancio.swift,
 				Modulo/WebLancio.swift,
